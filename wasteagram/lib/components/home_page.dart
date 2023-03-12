@@ -22,9 +22,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Wasteagram'),
-        ),
-        body: checkListCount());
+      appBar: AppBar(
+        title: const Text('Wasteagram'),
+      ),
+      body: checkListCount(),
+      floatingActionButton: Builder(builder: (context) {
+        return FloatingActionButton(
+            onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Placeholder()))
+                },
+            child: const Icon(Icons.add_a_photo));
+      }),
+    );
   }
 }

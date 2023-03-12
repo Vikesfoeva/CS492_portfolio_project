@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "346165420248",
+    "project_id": "lenzb-cs492-wasteagram",
+    "storage_bucket": "lenzb-cs492-wasteagram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346165420248:android:9962b42789d8914d7eb7ad",
+        "android_client_info": {
+          "package_name": "edu.oregonstate.lenzb.wasteagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346165420248-j90aa7pr4nprgoi7rl4qful1t66t8q15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7diCt0tJWofAdy9H_-oFrL3jHcuoXjVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346165420248-j90aa7pr4nprgoi7rl4qful1t66t8q15.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

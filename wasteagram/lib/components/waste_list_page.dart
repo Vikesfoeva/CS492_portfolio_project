@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../styles/text_styles.dart';
 
 class WasteListPage extends StatefulWidget {
   const WasteListPage({super.key});
@@ -15,7 +16,10 @@ class _WasteListPageState extends State<WasteListPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: const [
-        Text("I found things!!"),
+        AppText(
+          content: "I found things!!",
+          size: 'large',
+        ),
       ],
     ));
   }

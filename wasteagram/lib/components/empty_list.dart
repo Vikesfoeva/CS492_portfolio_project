@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../styles/text_styles.dart';
 
 class EmptyList extends StatelessWidget {
   const EmptyList({super.key});
@@ -10,8 +11,14 @@ class EmptyList extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: const [
-        Text("No Items Found"),
-        CircularProgressIndicator(),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: CircularProgressIndicator(),
+        ),
+        AppText(
+          content: "Nothing found",
+          size: 'large',
+        ),
       ],
     ));
   }
