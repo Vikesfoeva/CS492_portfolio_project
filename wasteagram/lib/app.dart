@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'components/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final FirebaseApp fireStore;
+  const App({super.key, required this.fireStore});
 
   // This widget is the root of your application.
   @override
@@ -12,7 +14,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: HomePage(fireStore: fireStore),
     );
   }
 }

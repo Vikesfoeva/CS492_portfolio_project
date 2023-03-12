@@ -1,22 +1,24 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'empty_list.dart';
 import 'waste_list_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final FirebaseApp fireStore;
+  const HomePage({super.key, required this.fireStore});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  Map<String, String> listItems = {};
+  Map<String, String> listItems = {'hi': 'tet'};
 
   Widget checkListCount() {
     if (listItems.isEmpty) {
       return const EmptyList();
     }
-    return const WasteListPage();
+    return WasteListPage(fireStore: widget.fireStore);
   }
 
   @override
