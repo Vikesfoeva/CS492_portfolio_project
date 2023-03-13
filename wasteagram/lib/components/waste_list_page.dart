@@ -1,11 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../styles/text_styles.dart';
-import 'waste_list_item.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class WasteListPage extends StatefulWidget {
-  final FirebaseApp fireStore;
-  const WasteListPage({super.key, required this.fireStore});
+  final List<QueryDocumentSnapshot<Object?>>? wasteItems;
+  const WasteListPage({super.key, required this.wasteItems});
 
   @override
   State<WasteListPage> createState() => _WasteListPageState();
@@ -14,17 +13,19 @@ class WasteListPage extends StatefulWidget {
 class _WasteListPageState extends State<WasteListPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const AppText(
-          content: "I found things!!",
-          size: 'large',
-        ),
-        WasteListItem(fireStore: widget.fireStore)
-      ],
-    ));
+    List<Widget> listItems = [];
+    List<QueryDocumentSnapshot<Object?>>? items = widget.wasteItems;
+    if (items?.isNotEmpty ?? false) {
+      for (var ele in items!) {
+        listItems.add(Material(
+            child: ListTile(
+          title: AppText(content: ele['imageUrl'].toString(), size: 'medium'),
+          subtitle:
+              AppText(content: ele['creationDate'].toString(), size: 'small'),
+          onTap: () {},
+        )));
+      }
+    }
+    return ListView(padding: const EdgeInsets.all(8), children: listItems);
   }
 }
