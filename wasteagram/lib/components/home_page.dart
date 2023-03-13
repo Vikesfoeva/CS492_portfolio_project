@@ -1,12 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'empty_list.dart';
 import 'waste_list_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
-  final FirebaseApp fireStore;
-  const HomePage({super.key, required this.fireStore});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -17,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wasteagram'),
+        title: const Center(child: Text('Wasteagram')),
       ),
       body: StreamBuilder(
         stream:
