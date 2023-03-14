@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../functions/location_data.dart';
 import 'empty_list.dart';
 import 'waste_list_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: Builder(builder: (context) {
+        pingLocation();
         return FloatingActionButton(
             onPressed: () => {
                   Navigator.push(
