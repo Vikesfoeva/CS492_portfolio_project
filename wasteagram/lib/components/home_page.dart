@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../functions/location_data.dart';
 import 'empty_list.dart';
 import 'waste_list_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,7 +45,6 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: Builder(builder: (BuildContext context) {
-        pingLocation();
         return FloatingActionButton(
             onPressed: () => getImage(context),
             child: const Icon(Icons.add_a_photo));

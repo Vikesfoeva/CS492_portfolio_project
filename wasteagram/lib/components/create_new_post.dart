@@ -1,6 +1,10 @@
-
+import 'dart:async';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import '../functions/location_data.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class NewPostForm extends StatefulWidget {
   final File? image;
@@ -11,8 +15,39 @@ class NewPostForm extends StatefulWidget {
 }
 
 class _NewPostFormState extends State<NewPostForm> {
-  void returnToMain() {
+  // https://stackoverflow.com/questions/42176092/dartlang-wait-more-than-one-future
+  void handleUpload(context) async {
+    if (!mounted) return;
+    returnToMain(context);
+
+    late String url;
+    late LocationData? coordinates;
+    await Future.wait([
+      handleFileUpload().then((value) => url = value),
+      pingLocation().then((value) => coordinates = value)
+    ]);
+
+    FirebaseFirestore.instance.collection('waste_items').add({
+      'count': 76,
+      'creationDate': DateTime.now(),
+      'latitude': coordinates?.latitude.toString(),
+      'longitude': coordinates?.longitude.toString(),
+      'imageUrl': url
+    });
+  }
+
+  void returnToMain(context) {
     Navigator.of(context).pop();
+  }
+
+  Future<String> handleFileUpload() async {
+    final storageRef = FirebaseStorage.instance.ref();
+    String filePath = widget.image!.path;
+
+    final imageReference = storageRef.child(filePath.split('/').last);
+    await imageReference.putFile(File(filePath));
+
+    return await imageReference.getDownloadURL();
   }
 
   @override
@@ -20,7 +55,7 @@ class _NewPostFormState extends State<NewPostForm> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-          onPressed: () => returnToMain(),
+          onPressed: () => returnToMain(context),
         ),
       ),
       body: Center(
@@ -32,7 +67,8 @@ class _NewPostFormState extends State<NewPostForm> {
               height: 40,
             ),
             ElevatedButton(
-                onPressed: () {}, child: const Icon(Icons.upload_file))
+                onPressed: () => handleUpload(context),
+                child: const Icon(Icons.upload_file))
           ],
         ),
       ),
