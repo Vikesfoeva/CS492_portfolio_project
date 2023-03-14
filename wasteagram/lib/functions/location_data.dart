@@ -21,6 +21,7 @@ Future<LocationData?> pingLocation() async {
       return null;
     }
   }
-
-  return await location.getLocation();
+  LocationData myLocation = await location.getLocation();
+  print(myLocation);
+  return myLocation;
 }

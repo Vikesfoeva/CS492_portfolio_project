@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../functions/location_data.dart';
 import 'empty_list.dart';
 import 'waste_list_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'create_new_post.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +16,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void getImage(BuildContext context) async {
+    final picker = ImagePicker();
+    //https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    File image = File(pickedFile!.path);
+    if (!mounted) return;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => NewPostForm(
+                  image: image,
+                )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,15 +46,10 @@ class _HomePageState extends State<HomePage> {
           return const EmptyList();
         },
       ),
-      floatingActionButton: Builder(builder: (context) {
+      floatingActionButton: Builder(builder: (BuildContext context) {
         pingLocation();
         return FloatingActionButton(
-            onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Placeholder()))
-                },
+            onPressed: () => getImage(context),
             child: const Icon(Icons.add_a_photo));
       }),
     );
