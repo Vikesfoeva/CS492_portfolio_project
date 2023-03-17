@@ -15,8 +15,10 @@ class NewPostForm extends StatefulWidget {
 }
 
 class _NewPostFormState extends State<NewPostForm> {
+  late num quantity = 0;
+  final formKey = GlobalKey<FormState>();
   // https://stackoverflow.com/questions/42176092/dartlang-wait-more-than-one-future
-  void handleUpload(context) async {
+  void handleUpload(BuildContext context, num quantity) async {
     if (!mounted) return;
     returnToMain(context);
 
@@ -28,7 +30,7 @@ class _NewPostFormState extends State<NewPostForm> {
     ]);
 
     FirebaseFirestore.instance.collection('waste_items').add({
-      'count': 76,
+      'quantity': quantity,
       'creationDate': DateTime.now(),
       'latitude': coordinates?.latitude.toString(),
       'longitude': coordinates?.longitude.toString(),
@@ -59,17 +61,46 @@ class _NewPostFormState extends State<NewPostForm> {
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.file(widget.image!),
-            const SizedBox(
-              height: 40,
-            ),
-            ElevatedButton(
-                onPressed: () => handleUpload(context),
-                child: const Icon(Icons.upload_file))
-          ],
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.file(widget.image!),
+              const SizedBox(
+                height: 40,
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                    labelText: 'Quantity of Waste',
+                    border: OutlineInputBorder()),
+                keyboardType: TextInputType.number,
+                onSaved: (value) {
+                  quantity = num.parse(value!);
+                },
+                validator: (value) {
+                  try {
+                    num.parse(value!);
+                  } catch (event) {
+                    return 'Please enter a number';
+                  }
+                  if (value.isEmpty) {
+                    return 'Please enter a number';
+                  }
+                  return null;
+                },
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    bool checkVal = formKey.currentState?.validate() ?? false;
+                    if (checkVal) {
+                      formKey.currentState?.save();
+                      handleUpload(context, quantity);
+                    }
+                  },
+                  child: const Icon(Icons.upload_file))
+            ],
+          ),
         ),
       ),
     );

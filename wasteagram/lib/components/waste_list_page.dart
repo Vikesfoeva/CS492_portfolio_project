@@ -31,13 +31,13 @@ class _WasteListPageState extends State<WasteListPage> {
     bool isDark = false;
     if (items?.isNotEmpty ?? false) {
       for (var element in items!) {
-        String count = element['count'].toString();
+        String quantity = element['quantity'].toString();
         listItems.add(Material(
             child: ListTile(
           tileColor: tileBackground(isDark),
           title: AppText(
               content: convertDate(element['creationDate']), size: 'medium'),
-          subtitle: AppText(content: 'Count: $count', size: 'small'),
+          subtitle: AppText(content: 'Quantity: $quantity', size: 'small'),
           onTap: () {
             Navigator.push(
                 context,
