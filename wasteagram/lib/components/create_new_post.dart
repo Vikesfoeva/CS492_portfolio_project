@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
-import '../functions/location_data.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import '../functions/handle_uploads.dart';
+import 'waste_entry_class.dart';
 
 class NewPostForm extends StatefulWidget {
   final File? image;
@@ -15,41 +13,18 @@ class NewPostForm extends StatefulWidget {
 }
 
 class _NewPostFormState extends State<NewPostForm> {
-  late num quantity = 0;
+  final wasteEntry = WasteEntry();
   final formKey = GlobalKey<FormState>();
-  // https://stackoverflow.com/questions/42176092/dartlang-wait-more-than-one-future
-  void handleUpload(BuildContext context, num quantity) async {
+
+  void handleUpload(BuildContext context, WasteEntry wasteEntry) async {
     if (!mounted) return;
-    returnToMain(context);
-
-    late String url;
-    late LocationData? coordinates;
-    await Future.wait([
-      handleFileUpload().then((value) => url = value),
-      pingLocation().then((value) => coordinates = value)
-    ]);
-
-    FirebaseFirestore.instance.collection('waste_items').add({
-      'quantity': quantity,
-      'creationDate': DateTime.now(),
-      'latitude': coordinates?.latitude.toString(),
-      'longitude': coordinates?.longitude.toString(),
-      'imageUrl': url
-    });
-  }
-
-  void returnToMain(context) {
     Navigator.of(context).pop();
-  }
 
-  Future<String> handleFileUpload() async {
-    final storageRef = FirebaseStorage.instance.ref();
-    String filePath = widget.image!.path;
+    WasteEntry submission = await finishEntryBuild(wasteEntry, widget.image);
 
-    final imageReference = storageRef.child(filePath.split('/').last);
-    await imageReference.putFile(File(filePath));
-
-    return await imageReference.getDownloadURL();
+    FirebaseFirestore.instance
+        .collection('waste_items')
+        .add(submission.toMap());
   }
 
   @override
@@ -57,7 +32,7 @@ class _NewPostFormState extends State<NewPostForm> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-          onPressed: () => returnToMain(context),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: Center(
@@ -66,7 +41,10 @@ class _NewPostFormState extends State<NewPostForm> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.file(widget.image!),
+              Image.file(
+                widget.image!,
+                height: 300,
+              ),
               const SizedBox(
                 height: 40,
               ),
@@ -76,26 +54,24 @@ class _NewPostFormState extends State<NewPostForm> {
                     border: OutlineInputBorder()),
                 keyboardType: TextInputType.number,
                 onSaved: (value) {
-                  quantity = num.parse(value!);
+                  wasteEntry.quantity = num.parse(value!);
                 },
                 validator: (value) {
+                  String errorMsg = 'Please enter a number';
                   try {
                     num.parse(value!);
+                    if (value.isEmpty) return errorMsg;
                   } catch (event) {
-                    return 'Please enter a number';
-                  }
-                  if (value.isEmpty) {
-                    return 'Please enter a number';
+                    return errorMsg;
                   }
                   return null;
                 },
               ),
               ElevatedButton(
                   onPressed: () async {
-                    bool checkVal = formKey.currentState?.validate() ?? false;
-                    if (checkVal) {
+                    if (formKey.currentState?.validate() ?? false) {
                       formKey.currentState?.save();
-                      handleUpload(context, quantity);
+                      handleUpload(context, wasteEntry);
                     }
                   },
                   child: const Icon(Icons.upload_file))
