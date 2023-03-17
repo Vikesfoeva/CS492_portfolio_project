@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import '../functions_classes/convert_date.dart';
 import '../styles/text_styles.dart';
 import 'view_single_item.dart';
 
@@ -13,10 +13,6 @@ class WasteListPage extends StatefulWidget {
 }
 
 class _WasteListPageState extends State<WasteListPage> {
-  String convertDate(Timestamp value) {
-    return DateFormat('EEEE, LLLL d yyyy').format(value.toDate());
-  }
-
   Color tileBackground(bool isDark) {
     if (isDark) {
       return const Color.fromARGB(255, 255, 235, 227);

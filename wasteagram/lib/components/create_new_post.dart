@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../functions/handle_uploads.dart';
-import 'waste_entry_class.dart';
+import '../functions_classes/handle_uploads.dart';
+import '../functions_classes/waste_entry_class.dart';
 
 class NewPostForm extends StatefulWidget {
   final File? image;

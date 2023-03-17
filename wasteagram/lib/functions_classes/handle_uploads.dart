@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import '../components/waste_entry_class.dart';
+import 'waste_entry_class.dart';
 import 'location_data.dart';
 
 Future<WasteEntry> finishEntryBuild(WasteEntry wasteEntry, File? image) async {

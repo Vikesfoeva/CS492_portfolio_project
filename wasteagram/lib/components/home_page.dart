@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         stream:
             FirebaseFirestore.instance.collection('waste_items').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.data?.docs.isNotEmpty ?? false) {
             return WasteListPage(wasteItems: snapshot.data?.docs);
           }
           return const EmptyList();
