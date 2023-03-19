@@ -17,8 +17,14 @@ class WasteListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-          onPressed: () => Navigator.of(context).pop(),
+        leading: Semantics(
+          enabled: true,
+          button: true,
+          onTapHint: 'Return to the list page of waste entrys',
+          label: 'Back button',
+          child: BackButton(
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
       ),
       body: Center(

@@ -29,17 +29,23 @@ class _WasteListPageState extends State<WasteListPage> {
       for (var element in items!) {
         String quantity = element['quantity'].toString();
         listItems.add(Material(
-            child: ListTile(
-          tileColor: tileBackground(isDark),
-          title: AppText(
-              content: convertDate(element['creationDate']), size: 'medium'),
-          subtitle: AppText(content: 'Quantity: $quantity', size: 'small'),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WasteListItem(element: element)));
-          },
+            child: Semantics(
+          enabled: true,
+          button: true,
+          onTapHint: 'Open the detailed view of this waste entry',
+          label: 'Summary tile of a waste entry',
+          child: ListTile(
+            tileColor: tileBackground(isDark),
+            title: AppText(
+                content: convertDate(element['creationDate']), size: 'medium'),
+            subtitle: AppText(content: 'Quantity: $quantity', size: 'small'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WasteListItem(element: element)));
+            },
+          ),
         )));
         isDark = !isDark;
       }

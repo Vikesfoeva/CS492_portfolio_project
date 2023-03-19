@@ -45,9 +45,15 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: Builder(builder: (BuildContext context) {
-        return FloatingActionButton(
-            onPressed: () => getImage(context),
-            child: const Icon(Icons.add_a_photo));
+        return Semantics(
+          enabled: true,
+          button: true,
+          onTapHint: 'Upload a new image of waste',
+          label: 'Button to allow uploading an image',
+          child: FloatingActionButton(
+              onPressed: () => getImage(context),
+              child: const Icon(Icons.add_a_photo)),
+        );
       }),
     );
   }

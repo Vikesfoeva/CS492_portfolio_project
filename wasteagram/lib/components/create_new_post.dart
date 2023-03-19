@@ -48,33 +48,46 @@ class _NewPostFormState extends State<NewPostForm> {
               const SizedBox(
                 height: 40,
               ),
-              TextFormField(
-                decoration: const InputDecoration(
-                    labelText: 'Quantity of Waste',
-                    border: OutlineInputBorder()),
-                keyboardType: TextInputType.number,
-                onSaved: (value) {
-                  wasteEntry.quantity = num.parse(value!);
-                },
-                validator: (value) {
-                  String errorMsg = 'Please enter a number';
-                  try {
-                    num.parse(value!);
-                    if (value.isEmpty) return errorMsg;
-                  } catch (event) {
-                    return errorMsg;
-                  }
-                  return null;
-                },
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    if (formKey.currentState?.validate() ?? false) {
-                      formKey.currentState?.save();
-                      handleUpload(context, wasteEntry);
-                    }
+              Semantics(
+                enabled: true,
+                textField: true,
+                focusable: true,
+                onTapHint: 'Focus on field to enter a number',
+                label: 'Form field to enter a number for amount of waste',
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                      labelText: 'Quantity of Waste',
+                      border: OutlineInputBorder()),
+                  keyboardType: TextInputType.number,
+                  onSaved: (value) {
+                    wasteEntry.quantity = num.parse(value!);
                   },
-                  child: const Icon(Icons.upload_file))
+                  validator: (value) {
+                    String errorMsg = 'Please enter a number';
+                    try {
+                      num.parse(value!);
+                      if (value.isEmpty) return errorMsg;
+                    } catch (event) {
+                      return errorMsg;
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Semantics(
+                enabled: true,
+                button: true,
+                onTapHint: 'Upload the entry',
+                label: 'Upload the entry',
+                child: ElevatedButton(
+                    onPressed: () async {
+                      if (formKey.currentState?.validate() ?? false) {
+                        formKey.currentState?.save();
+                        handleUpload(context, wasteEntry);
+                      }
+                    },
+                    child: const Icon(Icons.upload_file)),
+              )
             ],
           ),
         ),
