@@ -9,8 +9,18 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Wasteagram',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          colorScheme: ColorScheme(
+              background: Colors.black,
+              error: Colors.red,
+              onBackground: Color.fromARGB(255, 255, 255, 255),
+              onError: Colors.black,
+              onPrimary: Colors.black,
+              onSecondary: Colors.black,
+              onSurface: Color.fromARGB(255, 255, 255, 255),
+              secondary: Colors.deepPurple,
+              primary: Colors.deepPurple,
+              surface: Colors.black12,
+              brightness: Brightness.dark)),
       home: const HomePage(),
     );
   }

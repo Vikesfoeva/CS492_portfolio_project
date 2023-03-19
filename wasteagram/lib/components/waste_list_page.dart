@@ -15,9 +15,9 @@ class WasteListPage extends StatefulWidget {
 class _WasteListPageState extends State<WasteListPage> {
   Color tileBackground(bool isDark) {
     if (isDark) {
-      return const Color.fromARGB(255, 255, 235, 227);
+      return Color.fromARGB(255, 102, 102, 102);
     }
-    return Colors.white60;
+    return Color.fromARGB(104, 255, 255, 255);
   }
 
   @override
