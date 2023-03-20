@@ -46,7 +46,7 @@ class _NewPostFormState extends State<NewPostForm> {
                 height: 300,
               ),
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
               Semantics(
                 enabled: true,
